@@ -104,7 +104,7 @@ auto ph::external::map_param( ) -> void*
 	auto param = ( sdk::loader* ) sdk::handler::allocate( sizeof( sdk::loader ) );
 
 	param->__is_valid_flag = 0xDEAD; // used to indicate that the structure is valid :P
-	param->process_count = 3;
+	param->process_count = 4;
 
 	auto local_process_list = ( wchar_t** ) sdk::handler::allocate( sizeof( wchar_t* ) * param->process_count );
 
@@ -114,6 +114,7 @@ auto ph::external::map_param( ) -> void*
 	local_process_list[0] = sdk::wstring( xorstr( L"Process-Hider.exe" ) ).get_data( );
 	local_process_list[1] = sdk::wstring( xorstr( L"Spotify.exe" ) ).get_data( );
 	local_process_list[2] = sdk::wstring( xorstr( L"Discord.exe" ) ).get_data( );
+	local_process_list[3] = sdk::wstring( xorstr( L"OneNote.exe" ) ).get_data( );
 
 	/// Allocate memory for each process name in the target process
 
