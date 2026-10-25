@@ -1,1 +1,28 @@
+name: Build Modified Process-Hider
 
+on:
+  push:
+    branches: [ "main" ] # یا هر اسمی که شاخه اصلی مخزنت داره
+  workflow_dispatch: # این خط بهت اجازه میده دستی هم اجراش کنی
+
+jobs:
+  build:
+    runs-on: windows-latest # گیت‌هاب یه ویندوز تمیز بهت میده
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2 # ابزار ساخت مایکروسافت رو نصب میکنه
+
+    - name: Build Solution (Release|x64)
+      run: msbuild Process-Hider.sln /p:Configuration=Release /p:Platform=x64 /m
+
+    - name: Upload Executable Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Process-Hider-Executable
+        # این مسیر استاندارد خروجی Visual Studio در حالت Release|x64 است
+        path: "**/x64/Release/Process-Hider.exe" 
+        if-no-files-found: error # اگه فایل پیدا نشد، ارور بده تا بفهمیم
